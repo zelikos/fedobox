@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-toolbox:latest AS fedora-distrobox
+FROM registry.fedoraproject.org/fedora-toolbox:latest AS fedobox
 
 # Install packages required by Distrobox, this speeds up the first-run time
 RUN dnf install -y \
@@ -26,24 +26,24 @@ RUN dnf install -y \
         ncurses \
         nss-mdns \
         openssh-clients \
-        pam \ 
+        pam \
         passwd \
-        pigz \ 
+        pigz \
         pinentry \
         procps-ng \
         rsync \
         shadow-utils \
-        sudo \ 
+        sudo \
         tcpdump \
-        time \ 
+        time \
         traceroute \
-        tree \ 
+        tree \
         tzdata \
-        unzip \ 
+        unzip \
         util-linux \
         vte-profile \
         wget \
-        which \ 
+        which \
         whois \
         words \
         xorg-x11-xauth \
@@ -65,8 +65,7 @@ RUN git clone https://github.com/89luca89/distrobox.git --single-branch /tmp/dis
 RUN dnf copr enable -y kylegospo/distrobox-utils && \
     dnf install -y \
         xdg-utils-distrobox \
-        adw-gtk3-theme && \
-    ln -s /usr/bin/distrobox-host-exec /usr/bin/flatpak
+        adw-gtk3-theme
 
 # Install RPMFusion for hardware accelerated encoding/decoding
 RUN dnf install -y \
@@ -77,6 +76,12 @@ RUN dnf install -y \
         nvidia-vaapi-driver && \
     dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld && \
     dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+
+# Host integrations
+RUN ln -fs /usr/bin/distrobox-host-exec /usr/bin/flatpak && \
+    ln -fs /usr/bin/distrobox-host-exec /usr/bin/docker && \
+    ln -fs /usr/bin/distrobox-host-exec /usr/bin/podman && \
+    ln -fs /usr/bin/distrobox-host-exec /usr/bin/rpm-ostree
 
 # Cleanup
 RUN rm -rf /tmp/*
