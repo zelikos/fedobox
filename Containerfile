@@ -2,8 +2,8 @@ FROM registry.fedoraproject.org/fedora-toolbox:latest AS fedobox
 
 # Install packages required by Distrobox, this speeds up the first-run time
 COPY distrobox-packages /
-RUN dnf upgrade && \
-    grep -v '^#' /distrobox-packages | xargs dnf install
+RUN dnf upgrade -y && \
+    grep -v '^#' /distrobox-packages | xargs dnf install -y
 RUN rm /distrobox-packages
 
 # Set up dependencies
@@ -32,8 +32,8 @@ RUN dnf install -y \
 
 # Extra packages
 COPY extra-packages /
-RUN dnf upgrade && \
-    grep -v '^#' /extra-packages | xargs dnf install
+RUN dnf upgrade -y && \
+    grep -v '^#' /extra-packages | xargs dnf install -y
 RUN rm /extra-packages
 
 # Host integrations
