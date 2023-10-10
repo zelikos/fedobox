@@ -1,57 +1,11 @@
 FROM registry.fedoraproject.org/fedora-toolbox:latest AS fedobox
 
 # Install packages required by Distrobox, this speeds up the first-run time
-RUN dnf install -y \
-        bash-completion \
-        bc \
-        bzip2 \
-        curl \
-        diffutils \
-        dnf-plugins-core \
-        findutils \
-        glibc-all-langpacks \
-        glibc-locale-source \
-        gnupg2 \
-        gnupg2-smime \
-        hostname \
-        iproute \
-        iputils \
-        keyutils \
-        krb5-libs \
-        less \
-        lsof \
-        man-db \
-        man-pages \
-        mtr \
-        ncurses \
-        nss-mdns \
-        openssh-clients \
-        pam \
-        passwd \
-        pigz \
-        pinentry \
-        procps-ng \
-        rsync \
-        shadow-utils \
-        sudo \
-        tcpdump \
-        time \
-        traceroute \
-        tree \
-        tzdata \
-        unzip \
-        util-linux \
-        vte-profile \
-        wget \
-        which \
-        whois \
-        words \
-        xorg-x11-xauth \
-        xz \
-        zip \
-        mesa-dri-drivers \
-        mesa-vulkan-drivers \
-        vulkan
+COPY distrobox-packages /
+RUN apk update && \
+    apk upgrade && \
+    grep -v '^#' /distrobox-packages | xargs apk add
+RUN rm /distrobox-packages
 
 # Set up dependencies
 RUN git clone https://github.com/89luca89/distrobox.git --single-branch /tmp/distrobox && \
