@@ -4,7 +4,7 @@ FROM registry.fedoraproject.org/fedora-toolbox:latest AS fedobox
 COPY distrobox-packages /
 RUN apk update && \
     apk upgrade && \
-    grep -v '^#' /distrobox-packages | xargs apk add
+    grep -v '^#' /distrobox-packages | xargs dnf install
 RUN rm /distrobox-packages
 
 # Set up dependencies
@@ -35,7 +35,7 @@ RUN dnf install -y \
 COPY extra-packages /
 RUN apk update && \
     apk upgrade && \
-    grep -v '^#' /extra-packages | xargs apk add
+    grep -v '^#' /extra-packages | xargs dnf install
 RUN rm /extra-packages
 
 # Host integrations
