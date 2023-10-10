@@ -31,6 +31,13 @@ RUN dnf install -y \
     dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld && \
     dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
 
+# Extra packages
+COPY extra-packages /
+RUN apk update && \
+    apk upgrade && \
+    grep -v '^#' /extra-packages | xargs apk add
+RUN rm /extra-packages
+
 # Host integrations
 RUN ln -fs /usr/bin/distrobox-host-exec /usr/bin/flatpak && \
     ln -fs /usr/bin/distrobox-host-exec /usr/bin/docker && \
