@@ -1,4 +1,4 @@
-name: Build FedoBox
+name: build-fedobox
 on:
   pull_request:
     branches:
